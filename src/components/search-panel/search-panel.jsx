@@ -1,9 +1,11 @@
 import React from "react";
 
-import './search-panel'
+import './search-panel.css'
 
-export const SearchPanel =()=>{
+export const SearchPanel = () => {
 	return (
-		<div>its a search panel</div>
+		<input type="text"
+					 className="form-control search-input"
+					 placeholder="type to search"/>
 	)
 }
