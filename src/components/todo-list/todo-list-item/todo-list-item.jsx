@@ -1,21 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 
 import './todo-list-item.css'
 
-export const TodoListItem = ({label, onDeleted}) => {
-
-	const [done, setDone] = useState(false)
-	const [important, setImportant] = useState(false)
-
-
-	const onLabelClick = (e) => {
-		setDone((done) => !done)
-	}
-
-	const onMarkImportant = () => {
-		setImportant((important) => !important)
-	}
-
+export const TodoListItem = ({label, onDeleted, onToggleImportant, onToggleDone, important, done}) => {
 	let classNames = 'todo-list-item'
 	if (done) classNames += ' done'
 	if (important) classNames += ' important'
@@ -24,19 +11,20 @@ export const TodoListItem = ({label, onDeleted}) => {
 		<span className={classNames}>
 			<span
 				className='todo-list-item-label'
-				onClick={(e) => onLabelClick(e)}>
+				onClick={onToggleDone}>
 			{label}
 		</span>
 
 			 <button type="button"
 							 className="btn btn-outline-success btn-sm float-right"
-							 onClick={() => onMarkImportant()}>
+							 onClick={ onToggleImportant}>
         <i className="fa fa-exclamation"/>
       </button>
 
       <button type="button"
 							className="btn btn-outline-danger btn-sm float-right"
-							onClick={onDeleted}>
+							onClick={onDeleted}
+			>
         <i className="fa fa-trash-o"/>
       </button>
 		</span>
