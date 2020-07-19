@@ -22,21 +22,39 @@ export const App = (props) => {
 	}
 
 	let initialState = [
-		createTotoItem('hi'), createTotoItem('hi2'), createTotoItem('hi3')
+		createTotoItem('create react todo'), createTotoItem('drink coffee'), createTotoItem('lol kek 4eburek')
 	]
 
 	const [state, setState] = useState(initialState)
 	const [textSearch, setTextSearch] = useState('')
+	const [filterState, setFilterState] = useState('all')
 
-	const search = (items, text)=>{
-		if(text.length === 0) return items
+	const filter = (items, filter) => {
+		switch (filter) {
+			case 'all':
+				return items
+			case 'active':
+				return items.filter(el=> !el.done)
+			case 'done':
+				return items.filter(el=> el.done)
+			default:
+				return items
+		}
+	}
 
-		return items.filter(el=>{
+	const filterTask = (filter) => {
+		setFilterState(filter)
+	}
+
+	const search = (items, text) => {
+		if (text.length === 0) return items
+
+		return items.filter(el => {
 			return el.label.toLowerCase().indexOf(text.toLowerCase()) > -1
 		})
 	}
 
-	const searchItem = (text)=>{
+	const searchItem = (text) => {
 		setTextSearch(text)
 	}
 
@@ -75,7 +93,7 @@ export const App = (props) => {
 	const doneCount = state.filter(el => el.done).length
 	const todoCount = state.length - doneCount
 
-	const visibleState = search(state, textSearch)
+	const visibleState = filter(search(state, textSearch), filterState)
 
 	return (
 		<div className='container card'>
@@ -83,7 +101,7 @@ export const App = (props) => {
 				<AppHeader toDo={todoCount} done={doneCount}/>
 				<div className='d-flex nav-panel'>
 					<SearchPanel searchItem={searchItem}/>
-					<ItemStatusFilter/>
+					<ItemStatusFilter filterState={filterState}  filterTask={filterTask}/>
 				</div>
 				<TodoList state={visibleState}
 									onToggleDone={onToggleDone}
