@@ -26,6 +26,19 @@ export const App = (props) => {
 	]
 
 	const [state, setState] = useState(initialState)
+	const [textSearch, setTextSearch] = useState('')
+
+	const search = (items, text)=>{
+		if(text.length === 0) return items
+
+		return items.filter(el=>{
+			return el.label.toLowerCase().indexOf(text.toLowerCase()) > -1
+		})
+	}
+
+	const searchItem = (text)=>{
+		setTextSearch(text)
+	}
 
 	const findAnIndex = (id) => {
 		return state.findIndex(el => el.id === id)
@@ -62,15 +75,17 @@ export const App = (props) => {
 	const doneCount = state.filter(el => el.done).length
 	const todoCount = state.length - doneCount
 
+	const visibleState = search(state, textSearch)
+
 	return (
 		<div className='container card'>
 			<div className='card-body'>
 				<AppHeader toDo={todoCount} done={doneCount}/>
 				<div className='d-flex nav-panel'>
-					<SearchPanel/>
+					<SearchPanel searchItem={searchItem}/>
 					<ItemStatusFilter/>
 				</div>
-				<TodoList state={state}
+				<TodoList state={visibleState}
 									onToggleDone={onToggleDone}
 									onDeleted={deleteItem}
 									onToggleImportant={onToggleImportant}/>

@@ -3,6 +3,7 @@ import React from "react";
 import './todo-list.css'
 
 import {TodoListItem} from "./todo-list-item";
+import {TodoListItemWarning} from "./todo-list-item-warning";
 
 export const TodoList = ({state, onDeleted, onToggleDone, onToggleImportant}) => {
 
@@ -12,16 +13,18 @@ export const TodoList = ({state, onDeleted, onToggleDone, onToggleImportant}) =>
 		return (
 			<li className='list-group-item' key={id}>
 				<TodoListItem {...itemProps}
-											onDeleted={()=>onDeleted(id)}
-											onToggleImportant={()=>onToggleImportant(id)}
-											onToggleDone={()=>onToggleDone(id)}/>
+											onDeleted={() => onDeleted(id)}
+											onToggleImportant={() => onToggleImportant(id)}
+											onToggleDone={() => onToggleDone(id)}/>
 			</li>
+
+
 		)
 	})
 
 	return (
 		<ul className='list-group todo-list'>
-			{item}
+			{state.length ===0 ? <TodoListItemWarning/>  : item}
 		</ul>
 	)
 }
